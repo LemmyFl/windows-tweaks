@@ -1,8 +1,9 @@
 if (-not ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)) {
     try {
-        Start-Process powershell -Verb RunAs -ArgumentList "-NoProfile -Command irm https://raw.githubusercontent.com/LemmyFl/windows-tweaks/refs/heads/main/rdp-unsigned-warning-fix.ps1 | iex" -ErrorAction Stop
+        Start-Process powershell -Verb RunAs -ArgumentList "-NoExit","-NoProfile","-Command","irm https://raw.githubusercontent.com/LemmyFl/windows-tweaks/refs/heads/main/rdp-unsigned-warning-fix.ps1 | iex" -ErrorAction Stop
     } catch {
         Write-Host "FAILED: Elevation was cancelled or could not start." -ForegroundColor Red
+        Read-Host "Press Enter to close"
     }
     return
 }
@@ -15,3 +16,4 @@ try {
 } catch {
     Write-Host "FAILED: $($_.Exception.Message)" -ForegroundColor Red
 }
+Read-Host "Press Enter to close"
